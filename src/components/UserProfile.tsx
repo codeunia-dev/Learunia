@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function UserProfile() {
@@ -14,25 +13,14 @@ export default function UserProfile() {
   return (
     <div className="relative group">
       <button className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
-        {user.avatar ? (
-          <Image 
-            src={user.avatar} 
-            alt={user.name}
-            width={32}
-            height={32}
-            className="rounded-full"
-            loading="lazy"
-          />
-        ) : (
-          <div className="w-8 h-8 bg-[#007AFF] rounded-full flex items-center justify-center">
-            <span className="text-white text-sm font-medium">
-              {user.name.charAt(0).toUpperCase()}
-            </span>
-          </div>
-        )}
+        <div className="w-8 h-8 bg-[#007AFF] rounded-full flex items-center justify-center">
+          <span className="text-white text-sm font-medium">
+            {user.name?.charAt(0).toUpperCase() || user.email.charAt(0).toUpperCase()}
+          </span>
+        </div>
         <div className="hidden md:block text-left">
-          <p className="text-white text-sm font-medium">{user.name}</p>
-          <p className="text-[#8B949E] text-xs capitalize">{user.plan}</p>
+          <p className="text-white text-sm font-medium">{user.name || user.email}</p>
+          <p className="text-[#8B949E] text-xs">Member</p>
         </div>
         <svg className="w-4 h-4 text-[#8B949E]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />

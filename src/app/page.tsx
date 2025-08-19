@@ -1,228 +1,219 @@
+'use client';
+
+import { useAuth } from '@/contexts/AuthContext';
 import Hero from '@/components/Hero';
 import SubjectCard from '@/components/SubjectCard';
-
-// Comprehensive programming subjects organized by category
-const SUBJECTS = [
-  // Core Programming Languages
-  {
-    id: 'python',
-    title: 'Python',
-    description: 'Learn Python fundamentals, data structures, and popular frameworks for web development.',
-    iconName: 'PythonIcon' as const,
-    href: '/python',
-    category: 'languages'
-  },
-  {
-    id: 'javascript',
-    title: 'JavaScript',
-    description: 'Master modern JavaScript with ES6+ features, async programming, and DOM manipulation.',
-    iconName: 'JavaScriptIcon' as const,
-    href: '/javascript',
-    category: 'languages'
-  },
-  {
-    id: 'typescript',
-    title: 'TypeScript',
-    description: 'Enhance JavaScript with static typing, interfaces, and advanced development features.',
-    iconName: 'TypeScriptIcon' as const,
-    href: '/typescript',
-    category: 'languages'
-  },
-  {
-    id: 'java',
-    title: 'Java',
-    description: 'Object-oriented programming with Java, covering syntax, OOP concepts, and frameworks.',
-    iconName: 'JavaIcon' as const,
-    href: '/java',
-    category: 'languages'
-  },
-  {
-    id: 'cpp',
-    title: 'C++',
-    description: 'Master C++ programming with STL, memory management, and performance optimization.',
-    iconName: 'CppIcon' as const,
-    href: '/cpp',
-    category: 'languages'
-  },
-  {
-    id: 'c',
-    title: 'C',
-    description: 'Learn C programming fundamentals, pointers, and system-level programming concepts.',
-    iconName: 'CIcon' as const,
-    href: '/c',
-    category: 'languages'
-  },
-  {
-    id: 'csharp',
-    title: 'C#',
-    description: 'Develop with C# and .NET framework, covering OOP, LINQ, and modern features.',
-    iconName: 'CSharpIcon' as const,
-    href: '/csharp',
-    category: 'languages'
-  },
-  {
-    id: 'go',
-    title: 'Go',
-    description: 'Modern programming with Go, featuring concurrency, simplicity, and performance.',
-    iconName: 'GoIcon' as const,
-    href: '/go',
-    category: 'languages'
-  },
-  {
-    id: 'rust',
-    title: 'Rust',
-    description: 'Systems programming with Rust, focusing on memory safety and zero-cost abstractions.',
-    iconName: 'RustIcon' as const,
-    href: '/rust',
-    category: 'languages'
-  },
-  
-  // Web Technologies
-  {
-    id: 'html',
-    title: 'HTML',
-    description: 'Structure web content with semantic HTML5 elements, forms, and accessibility features.',
-    iconName: 'HTMLIcon' as const,
-    href: '/html',
-    category: 'web'
-  },
-  {
-    id: 'css',
-    title: 'CSS',
-    description: 'Style and layout websites with CSS selectors, properties, flexbox, and grid systems.',
-    iconName: 'CSSIcon' as const,
-    href: '/css',
-    category: 'web'
-  },
-  {
-    id: 'react',
-    title: 'React',
-    description: 'Build modern user interfaces with React hooks, components, and state management.',
-    iconName: 'ReactIcon' as const,
-    href: '/react',
-    category: 'web'
-  },
-  {
-    id: 'nodejs',
-    title: 'Node.js',
-    description: 'Server-side JavaScript with Node.js, Express, and modern backend development patterns.',
-    iconName: 'NodeJSIcon' as const,
-    href: '/nodejs',
-    category: 'web'
-  },
-  {
-    id: 'vue',
-    title: 'Vue.js',
-    description: 'Progressive framework for building user interfaces with Vue 3 and Composition API.',
-    iconName: 'VueIcon' as const,
-    href: '/vue',
-    category: 'web'
-  },
-  {
-    id: 'angular',
-    title: 'Angular',
-    description: 'Full-featured framework for building scalable web applications with TypeScript.',
-    iconName: 'AngularIcon' as const,
-    href: '/angular',
-    category: 'web'
-  },
-  
-  // Database & Backend
-  {
-    id: 'sql',
-    title: 'SQL',
-    description: 'Database querying with SQL, from basic SELECT statements to complex JOINs and subqueries.',
-    iconName: 'SQLIcon' as const,
-    href: '/sql',
-    category: 'database'
-  },
-  {
-    id: 'mongodb',
-    title: 'MongoDB',
-    description: 'NoSQL database operations with MongoDB, aggregation pipelines, and document modeling.',
-    iconName: 'MongoDBIcon' as const,
-    href: '/mongodb',
-    category: 'database'
-  },
-  {
-    id: 'postgresql',
-    title: 'PostgreSQL',
-    description: 'Advanced PostgreSQL features, performance tuning, and complex data operations.',
-    iconName: 'PostgreSQLIcon' as const,
-    href: '/postgresql',
-    category: 'database'
-  },
-  
-  // Tools & DevOps
-  {
-    id: 'git',
-    title: 'Git',
-    description: 'Version control mastery with Git commands, branching strategies, and collaboration workflows.',
-    iconName: 'GitIcon' as const,
-    href: '/git',
-    category: 'tools'
-  },
-  {
-    id: 'docker',
-    title: 'Docker',
-    description: 'Containerization with Docker, from basic containers to multi-stage builds and orchestration.',
-    iconName: 'DockerIcon' as const,
-    href: '/docker',
-    category: 'tools'
-  },
-  {
-    id: 'linux',
-    title: 'Linux',
-    description: 'Command line mastery with Linux commands, shell scripting, and system administration.',
-    iconName: 'LinuxIcon' as const,
-    href: '/linux',
-    category: 'tools'
-  },
-  
-  // Mobile Development
-  {
-    id: 'kotlin',
-    title: 'Kotlin',
-    description: 'Modern Android development with Kotlin, coroutines, and Android Jetpack.',
-    iconName: 'KotlinIcon' as const,
-    href: '/kotlin',
-    category: 'mobile'
-  },
-  {
-    id: 'swift',
-    title: 'Swift',
-    description: 'iOS development with Swift, UIKit, SwiftUI, and modern iOS patterns.',
-    iconName: 'SwiftIcon' as const,
-    href: '/swift',
-    category: 'mobile'
-  },
-  {
-    id: 'flutter',
-    title: 'Flutter',
-    description: 'Cross-platform mobile development with Flutter and Dart programming language.',
-    iconName: 'FlutterIcon' as const,
-    href: '/flutter',
-    category: 'mobile'
-  }
-] as const;
+import PageLoader from '@/components/PageLoader';
+import StaticHomePage from '@/components/StaticHomePage';
+import ClientOnly from '@/components/ClientOnly';
 
 export default function HomePage() {
-  // Group subjects by category for organized display
-  const subjectsByCategory = {
-    languages: SUBJECTS.filter(subject => subject.category === 'languages'),
-    web: SUBJECTS.filter(subject => subject.category === 'web'),
-    database: SUBJECTS.filter(subject => subject.category === 'database'),
-    tools: SUBJECTS.filter(subject => subject.category === 'tools'),
-    mobile: SUBJECTS.filter(subject => subject.category === 'mobile')
-  };
+  return (
+    <ClientOnly fallback={<PageLoader />}>
+      <HomeContent />
+    </ClientOnly>
+  );
+}
 
-  const categoryTitles = {
-    languages: 'Programming Languages',
-    web: 'Web Development',
-    database: 'Database & Backend',
-    tools: 'Tools & DevOps',
-    mobile: 'Mobile Development'
-  };
+function HomeContent() {
+  const { isSupabaseConfigured } = useAuth();
+
+  // Show static fallback if Supabase is not configured
+  if (!isSupabaseConfigured) {
+    return <StaticHomePage />;
+  }
+
+  const subjects = [
+    {
+      id: 'python',
+      title: 'Python',
+      description: 'Learn Python fundamentals, data structures, and popular frameworks.',
+      iconName: 'PythonIcon' as const,
+      href: '/python',
+    },
+    {
+      id: 'javascript',
+      title: 'JavaScript',
+      description: 'Master modern JavaScript with ES6+ features and async programming.',
+      iconName: 'JavaScriptIcon' as const,
+      href: '/javascript',
+    },
+    {
+      id: 'react',
+      title: 'React',
+      description: 'Build interactive UIs with React hooks and modern patterns.',
+      iconName: 'ReactIcon' as const,
+      href: '/react',
+    },
+    {
+      id: 'nodejs',
+      title: 'Node.js',
+      description: 'Server-side JavaScript with Express and backend development.',
+      iconName: 'NodeJSIcon' as const,
+      href: '/nodejs',
+    },
+    {
+      id: 'typescript',
+      title: 'TypeScript',
+      description: 'Add static typing to JavaScript for better code quality.',
+      iconName: 'TypeScriptIcon' as const,
+      href: '/typescript',
+    },
+    {
+      id: 'java',
+      title: 'Java',
+      description: 'Enterprise-grade programming with object-oriented principles.',
+      iconName: 'JavaIcon' as const,
+      href: '/java',
+    },
+    {
+      id: 'cpp',
+      title: 'C++',
+      description: 'High-performance programming with system-level control.',
+      iconName: 'CppIcon' as const,
+      href: '/cpp',
+    },
+    {
+      id: 'c',
+      title: 'C',
+      description: 'Foundation language for system programming.',
+      iconName: 'CIcon' as const,
+      href: '/c',
+    },
+    {
+      id: 'go',
+      title: 'Go',
+      description: 'Simple, fast, and reliable language for modern applications.',
+      iconName: 'GoIcon' as const,
+      href: '/go',
+    },
+    {
+      id: 'rust',
+      title: 'Rust',
+      description: 'Memory-safe systems programming with zero-cost abstractions.',
+      iconName: 'RustIcon' as const,
+      href: '/rust',
+    },
+    {
+      id: 'swift',
+      title: 'Swift',
+      description: 'Apple\'s modern language for iOS and macOS development.',
+      iconName: 'SwiftIcon' as const,
+      href: '/swift',
+    },
+    {
+      id: 'kotlin',
+      title: 'Kotlin',
+      description: 'Modern language for Android and multiplatform development.',
+      iconName: 'KotlinIcon' as const,
+      href: '/kotlin',
+    },
+    {
+      id: 'csharp',
+      title: 'C#',
+      description: 'Microsoft\'s versatile language for .NET development.',
+      iconName: 'CSharpIcon' as const,
+      href: '/csharp',
+    },
+    {
+      id: 'sql',
+      title: 'SQL',
+      description: 'Database querying and management fundamentals.',
+      iconName: 'SQLIcon' as const,
+      href: '/sql',
+    },
+    {
+      id: 'html',
+      title: 'HTML',
+      description: 'Structure and semantics for web development.',
+      iconName: 'HTMLIcon' as const,
+      href: '/html',
+    },
+    {
+      id: 'css',
+      title: 'CSS',
+      description: 'Styling and layout for beautiful web interfaces.',
+      iconName: 'CSSIcon' as const,
+      href: '/css',
+    },
+    {
+      id: 'git',
+      title: 'Git',
+      description: 'Version control and collaboration workflows.',
+      iconName: 'GitIcon' as const,
+      href: '/git',
+    },
+    {
+      id: 'docker',
+      title: 'Docker',
+      description: 'Containerization for consistent deployment environments.',
+      iconName: 'DockerIcon' as const,
+      href: '/docker',
+    },
+    {
+      id: 'linux',
+      title: 'Linux',
+      description: 'Command line mastery and system administration.',
+      iconName: 'LinuxIcon' as const,
+      href: '/linux',
+    },
+    {
+      id: 'vue',
+      title: 'Vue.js',
+      description: 'Progressive framework for building user interfaces.',
+      iconName: 'VueIcon' as const,
+      href: '/vue',
+    },
+    {
+      id: 'angular',
+      title: 'Angular',
+      description: 'Full-featured framework for dynamic web applications.',
+      iconName: 'AngularIcon' as const,
+      href: '/angular',
+    },
+    {
+      id: 'flutter',
+      title: 'Flutter',
+      description: 'Cross-platform mobile development with Dart.',
+      iconName: 'FlutterIcon' as const,
+      href: '/flutter',
+    },
+    {
+      id: 'mongodb',
+      title: 'MongoDB',
+      description: 'NoSQL database for modern applications.',
+      iconName: 'MongoDBIcon' as const,
+      href: '/mongodb',
+    },
+    {
+      id: 'postgresql',
+      title: 'PostgreSQL',
+      description: 'Advanced open-source relational database.',
+      iconName: 'PostgreSQLIcon' as const,
+      href: '/postgresql',
+    },
+  ];
+
+  // Categorize subjects
+  const programmingLanguages = subjects.filter(subject => 
+    ['python', 'javascript', 'typescript', 'java', 'cpp', 'c', 'go', 'rust', 'swift', 'kotlin', 'csharp'].includes(subject.id)
+  );
+
+  const webTechnologies = subjects.filter(subject => 
+    ['react', 'vue', 'angular', 'html', 'css'].includes(subject.id)
+  );
+
+  const backendTools = subjects.filter(subject => 
+    ['nodejs', 'sql', 'mongodb', 'postgresql'].includes(subject.id)
+  );
+
+  const devOpsTools = subjects.filter(subject => 
+    ['git', 'docker', 'linux'].includes(subject.id)
+  );
+
+  const mobileFrameworks = subjects.filter(subject => 
+    ['flutter'].includes(subject.id)
+  );
 
   return (
     <div className="min-h-screen bg-[#0a0a0f]">
@@ -242,33 +233,95 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Subject Categories */}
-          {Object.entries(subjectsByCategory).map(([categoryKey, subjects]) => (
-            <div key={categoryKey} className="mb-16">
-              <h3 className="text-2xl font-bold text-white mb-2">
-                {categoryTitles[categoryKey as keyof typeof categoryTitles]}
-              </h3>
-              <p className="text-[#d1d1d1] mb-8">
-                {categoryKey === 'languages' && 'Core programming languages for building applications'}
-                {categoryKey === 'web' && 'Frontend and backend web development technologies'}
-                {categoryKey === 'database' && 'Database management and backend development'}
-                {categoryKey === 'tools' && 'Essential development tools and DevOps practices'}
-                {categoryKey === 'mobile' && 'Cross-platform mobile app development'}
-              </p>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {subjects.map((subject) => (
-                  <SubjectCard
-                    key={subject.id}
-                    title={subject.title}
-                    description={subject.description}
-                    iconName={subject.iconName}
-                    href={subject.href}
-                  />
-                ))}
-              </div>
+          {/* Programming Languages */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold text-white mb-2">Programming Languages</h3>
+            <p className="text-[#d1d1d1] mb-8">Essential languages for modern development</p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {programmingLanguages.map((subject) => (
+                <SubjectCard
+                  key={subject.id}
+                  title={subject.title}
+                  description={subject.description}
+                  iconName={subject.iconName}
+                  href={subject.href}
+                />
+              ))}
             </div>
-          ))}
+          </div>
+
+          {/* Web Technologies */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold text-white mb-2">Web Development</h3>
+            <p className="text-[#d1d1d1] mb-8">Frontend frameworks and web technologies</p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {webTechnologies.map((subject) => (
+                <SubjectCard
+                  key={subject.id}
+                  title={subject.title}
+                  description={subject.description}
+                  iconName={subject.iconName}
+                  href={subject.href}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Backend & Database */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold text-white mb-2">Backend & Database</h3>
+            <p className="text-[#d1d1d1] mb-8">Server-side technologies and data management</p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {backendTools.map((subject) => (
+                <SubjectCard
+                  key={subject.id}
+                  title={subject.title}
+                  description={subject.description}
+                  iconName={subject.iconName}
+                  href={subject.href}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* DevOps & Tools */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold text-white mb-2">DevOps & Tools</h3>
+            <p className="text-[#d1d1d1] mb-8">Development tools and deployment technologies</p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {devOpsTools.map((subject) => (
+                <SubjectCard
+                  key={subject.id}
+                  title={subject.title}
+                  description={subject.description}
+                  iconName={subject.iconName}
+                  href={subject.href}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Mobile Development */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold text-white mb-2">Mobile Development</h3>
+            <p className="text-[#d1d1d1] mb-8">Cross-platform mobile app development</p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {mobileFrameworks.map((subject) => (
+                <SubjectCard
+                  key={subject.id}
+                  title={subject.title}
+                  description={subject.description}
+                  iconName={subject.iconName}
+                  href={subject.href}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </section>
     </div>
