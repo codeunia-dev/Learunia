@@ -1,11 +1,9 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/lib/supabase';
 
 export default function CrossDomainAuth() {
-  const { login } = useAuth();
-
   useEffect(() => {
     // Listen for messages from the main Codeunia domain
     const handleMessage = async (event: MessageEvent) => {
@@ -15,9 +13,10 @@ export default function CrossDomainAuth() {
       }
 
       if (event.data.type === 'CODEUNIA_AUTH_TOKEN') {
-        const { token } = event.data;
-        if (token) {
-          await login(token);
+        const { session } = event.data;
+        if (session) {
+          // Set the session in Supabase
+          await supabase.auth.setSession(session);
         }
       }
     };
@@ -52,7 +51,7 @@ export default function CrossDomainAuth() {
     return () => {
       window.removeEventListener('message', handleMessage);
     };
-  }, [login]);
+  }, []);
 
   return null; // This is an invisible component
 }

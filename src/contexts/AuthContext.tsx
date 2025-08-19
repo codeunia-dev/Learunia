@@ -1,6 +1,8 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { User as SupabaseUser, Session } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase';
 import useHydrationFix from '@/hooks/useHydrationFix';
 
 interface User {
@@ -13,9 +15,10 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
+  session: Session | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  login: (token: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   refreshAuth: () => Promise<void>;
 }
@@ -24,155 +27,100 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   // Fix hydration issues caused by browser extensions
   useHydrationFix();
 
-  const fetchUser = async (token: string): Promise<User | null> => {
-    try {
-      const response = await fetch('https://api.codeunia.com/auth/me', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (!response.ok) {
-        return null;
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error('Failed to fetch user:', error);
-      return null;
-    }
+  // Convert Supabase user to our User interface
+  const convertSupabaseUser = (supabaseUser: SupabaseUser): User => {
+    return {
+      id: supabaseUser.id,
+      email: supabaseUser.email || '',
+      name: supabaseUser.user_metadata?.name || supabaseUser.email?.split('@')[0] || 'User',
+      avatar: supabaseUser.user_metadata?.avatar_url,
+      plan: supabaseUser.user_metadata?.plan || 'free'
+    };
   };
 
-  const login = useCallback(async (token?: string) => {
+  const login = useCallback(async (email: string, password: string) => {
     try {
-      let authToken = token;
-      
-      // If no token provided, check URL parameters
-      if (!authToken && typeof window !== 'undefined') {
-        const urlParams = new URLSearchParams(window.location.search);
-        authToken = urlParams.get('token') || undefined;
-      }
-      
-      if (!authToken) {
-        throw new Error('No authentication token provided');
-      }
-
-      // Validate token with main Codeunia API
-      const response = await fetch('/api/auth/validate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token: authToken }),
+      setIsLoading(true);
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       });
 
-      if (!response.ok) {
-        throw new Error('Token validation failed');
-      }
+      if (error) throw error;
 
-      const userData = await response.json();
-      setUser(userData.user);
-      
-      // Store token in localStorage for persistence
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('auth_token', authToken);
+      if (data.user) {
+        const convertedUser = convertSupabaseUser(data.user);
+        setUser(convertedUser);
+        setSession(data.session);
       }
     } catch (error) {
       console.error('Login failed:', error);
       setUser(null);
+      setSession(null);
     } finally {
       setIsLoading(false);
     }
   }, []);  const logout = () => {
-    // Clear the auth cookie
-    document.cookie = 'codeunia_auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    supabase.auth.signOut();
     setUser(null);
-    
-    // Redirect to main Codeunia site
-    window.location.href = 'https://codeunia.com/auth/logout';
+    setSession(null);
   };
 
   const refreshAuth = useCallback(async () => {
-    setIsLoading(true);
     try {
-      // First check if we have a token in the URL (from auth callback)
-      const urlParams = new URLSearchParams(window.location.search);
-      const urlToken = urlParams.get('token');
+      setIsLoading(true);
+      const { data, error } = await supabase.auth.getSession();
       
-      if (urlToken) {
-        // We have a token in URL, use it to authenticate
-        await login(urlToken);
-        // Clean up URL
-        window.history.replaceState({}, document.title, window.location.pathname);
-        return;
-      }
-
-      // Check for token in cookie
-      const token = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('codeunia_auth_token='))
-        ?.split('=')[1];
-
-      if (token) {
-        const userData = await fetchUser(token);
-        setUser(userData);
+      if (error) throw error;
+      
+      if (data.session?.user) {
+        const convertedUser = convertSupabaseUser(data.session.user);
+        setUser(convertedUser);
+        setSession(data.session);
       } else {
-        // No token found, check if user is logged in on main domain
-        await checkMainDomainAuth();
+        setUser(null);
+        setSession(null);
       }
     } catch (error) {
       console.error('Auth refresh failed:', error);
       setUser(null);
+      setSession(null);
     } finally {
       setIsLoading(false);
     }
-  }, [login]);
-
-  const checkMainDomainAuth = async () => {
-    try {
-      // Try to get user info from main domain API with credentials
-      const response = await fetch('https://api.codeunia.com/auth/me', {
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        const userData = await response.json();
-        // If we got user data, extract token from response headers or set a flag
-        setUser(userData);
-      }
-    } catch {
-      console.log('No active session on main domain');
-    }
-  };
+  }, []);
 
   useEffect(() => {
-    // Check for auth token on mount
+    // Check for auth token on mount and set up auth state listener
     refreshAuth();
-  }, [refreshAuth]);
-
-  // Handle return from main Codeunia login
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
     
-    if (token) {
-      login(token);
-      // Clean up URL
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-  }, [login]);
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (session?.user) {
+          const convertedUser = convertSupabaseUser(session.user);
+          setUser(convertedUser);
+          setSession(session);
+        } else {
+          setUser(null);
+          setSession(null);
+        }
+        setIsLoading(false);
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, [refreshAuth]);
 
   const value: AuthContextType = {
     user,
+    session,
     isLoading,
     isAuthenticated: !!user,
     login,

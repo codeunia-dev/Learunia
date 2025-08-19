@@ -1,15 +1,15 @@
-# 🔧 BuildUnia - A Codeunia Product
+# � Learnunia - A Codeunia Product
 
-BuildUnia is an innovative platform under Codeunia that empowers students and developers to build real-world IoT-based and software-integrated solutions. Designed to bridge the gap between theory and application, BuildUnia offers guided projects, mentorship, and access to powerful tools and resources.
+Learnunia is an innovative learning platform under Codeunia that empowers students and developers with comprehensive programming cheatsheets and learning resources. Designed to accelerate learning and boost coding productivity, Learnunia offers quick access to essential programming knowledge across multiple technologies.
 
 ## 🚀 Features
 
-- 🧠 Hands-on IoT and software projects
-- 📦 End-to-end project templates with documentation
-- 🎓 Industry mentorship from professionals
-- 🌐 Community support via Codeunia
-- 📡 Real-time data simulation and dashboards
-- 🛠️ Open-source starter kits
+- 📖 Comprehensive programming cheatsheets for 20+ languages and technologies
+- ⚡ Quick reference guides for faster development
+- � Beginner to advanced content for all skill levels
+- 🌐 Modern, responsive web interface
+- � Secure authentication integrated with main Codeunia platform
+- � Mobile-friendly design for learning on the go
 
 ## 🛡️ License & Ownership
 
@@ -22,7 +22,7 @@ But all commercial usage and official branding must be aligned with CodeUnia's l
 ## 🤝 Join the Movement
 
 Be a part of something big.  
-Contribute to open innovation with CodeUnia + BuildUnia.
+Contribute to open innovation with CodeUnia + Learnunia.
 
 ---
 
