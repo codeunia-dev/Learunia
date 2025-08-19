@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Logo from './Logo';
 import UserProfile from './UserProfile';
+import ClientOnly from './ClientOnly';
 
 export default function Navbar() {
   return (
@@ -28,7 +29,9 @@ export default function Navbar() {
             >
               About
             </Link>
-            <UserProfile />
+            <ClientOnly fallback={<div className="w-8 h-8"></div>}>
+              <UserProfile />
+            </ClientOnly>
           </div>
 
           {/* Mobile menu button */}

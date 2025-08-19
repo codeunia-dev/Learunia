@@ -29,9 +29,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isClient, setIsClient] = useState(false);
 
   // Fix hydration issues caused by browser extensions
   useHydrationFix();
+
+  // Ensure we're on the client side
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Convert Supabase user to our User interface
   const convertSupabaseUser = (supabaseUser: SupabaseUser): User => {
@@ -97,6 +103,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
+    // Only run on client side to prevent SSR hydration issues
+    if (!isClient) return;
+    
     // Check for auth token on mount and set up auth state listener
     refreshAuth();
     
@@ -116,7 +125,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     );
 
     return () => subscription.unsubscribe();
-  }, [refreshAuth]);
+  }, [refreshAuth, isClient]);
 
   const value: AuthContextType = {
     user,

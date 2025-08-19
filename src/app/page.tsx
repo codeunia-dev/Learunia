@@ -225,28 +225,38 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0F0F1A] to-[#1A1A2E]">
+    <div className="min-h-screen bg-[#0a0a0f]">
       <Hero />
       
-      {/* Subjects by Category */}
-      <section className="py-20 px-4">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Header */}
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Choose Your <span className="text-[#007AFF]">Subject</span>
+            <h2 className="text-4xl font-bold text-white mb-4">
+              Master Programming with 
+              <span className="text-[#007AFF]"> Quick Cheatsheets</span>
             </h2>
-            <p className="text-xl text-[#D1D1D1] max-w-3xl mx-auto">
-              Explore our comprehensive cheatsheets covering the most essential programming topics, organized by category
+            <p className="text-xl text-[#d1d1d1] max-w-3xl mx-auto">
+              Access comprehensive programming references for 20+ languages and technologies. 
+              From beginner basics to advanced concepts, accelerate your coding productivity.
             </p>
           </div>
 
-          {Object.entries(subjectsByCategory).map(([category, subjects]) => (
-            <div key={category} className="mb-16">
-              <h3 className="text-2xl md:text-3xl font-bold text-white mb-8 text-center">
-                {categoryTitles[category as keyof typeof categoryTitles]}
+          {/* Subject Categories */}
+          {Object.entries(subjectsByCategory).map(([categoryKey, subjects]) => (
+            <div key={categoryKey} className="mb-16">
+              <h3 className="text-2xl font-bold text-white mb-2">
+                {categoryTitles[categoryKey as keyof typeof categoryTitles]}
               </h3>
+              <p className="text-[#d1d1d1] mb-8">
+                {categoryKey === 'languages' && 'Core programming languages for building applications'}
+                {categoryKey === 'web' && 'Frontend and backend web development technologies'}
+                {categoryKey === 'database' && 'Database management and backend development'}
+                {categoryKey === 'tools' && 'Essential development tools and DevOps practices'}
+                {categoryKey === 'mobile' && 'Cross-platform mobile app development'}
+              </p>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {subjects.map((subject) => (
                   <SubjectCard
                     key={subject.id}

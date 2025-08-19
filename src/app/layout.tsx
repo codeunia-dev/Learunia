@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { AuthProvider } from "@/contexts/AuthContext";
 import HydrationProvider from "@/components/HydrationProvider";
 import CrossDomainAuth from "@/components/CrossDomainAuth";
+import ClientOnly from "@/components/ClientOnly";
 
 export const metadata: Metadata = {
   title: "Learn Faster. Code Smarter. — Codeunia",
@@ -38,7 +39,9 @@ export default function RootLayout({
       >
         <HydrationProvider>
           <AuthProvider>
-            <CrossDomainAuth />
+            <ClientOnly>
+              <CrossDomainAuth />
+            </ClientOnly>
             <Navbar />
             <main className="flex-1">{children}</main>
             <Footer />
