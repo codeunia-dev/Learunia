@@ -1,0 +1,94 @@
+import ReactMarkdown from 'react-markdown';
+import rehypeHighlight from 'rehype-highlight';
+import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
+import Link from 'next/link';
+import { Metadata } from 'next';
+import { getContentSafely, sanitizeMarkdown } from '@/lib/content';
+import { generateSEO } from '@/lib/seo';
+import { ArticleStructuredData } from '@/components/StructuredData';
+
+export const metadata: Metadata = generateSEO({
+  title: "Docker Cheatsheet — Codeunia",
+  description: "Containerization with Docker, from basic containers to multi-stage builds and orchestration. Complete Docker reference guide.",
+  keywords: ["docker", "containers", "dockerfile", "compose", "devops", "containerization", "cheatsheet"],
+  url: "https://learn.codeunia.com/docker"
+});
+
+export default function DockerPage() {
+  const rawContent = getContentSafely('docker.md', 'Docker Cheatsheet');
+  const content = sanitizeMarkdown(rawContent);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-[#0F0F1A] to-[#1A1A2E]">
+      <ArticleStructuredData
+        title="Docker Cheatsheet"
+        description="Containerization with Docker, from basic containers to multi-stage builds and orchestration"
+        url="https://learn.codeunia.com/docker"
+        subject="Docker"
+      />
+      <div className="max-w-4xl mx-auto px-4 py-20">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+            Docker <span className="text-[#007AFF]">Cheatsheet</span>
+          </h1>
+          <p className="text-xl text-[#D1D1D1] max-w-2xl mx-auto">
+            Containerization with Docker, from basic containers to multi-stage builds and orchestration
+          </p>
+        </div>
+        
+        <div className="bg-gradient-to-br from-[#1A1A2E] to-[#16213E] rounded-xl p-8 border border-white/10 overflow-hidden">
+          <div className="prose prose-invert prose-blue max-w-none">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeHighlight, rehypeRaw]}
+              components={{
+                h1: ({children}) => <h1 className="text-3xl font-bold text-white mb-6 border-b border-white/20 pb-4">{children}</h1>,
+                h2: ({children}) => <h2 className="text-2xl font-semibold text-white mb-4 mt-8">{children}</h2>,
+                h3: ({children}) => <h3 className="text-xl font-medium text-white mb-3 mt-6">{children}</h3>,
+                p: ({children}) => <p className="text-[#D1D1D1] mb-4 leading-relaxed">{children}</p>,
+                code: ({children, className}) => {
+                  const isBlock = className?.includes('language-');
+                  return isBlock 
+                    ? <code className={className}>{children}</code>
+                    : <code className="bg-[#0F0F1A] text-[#007AFF] px-2 py-1 rounded text-sm">{children}</code>;
+                },
+                pre: ({children}) => (
+                  <div className="relative">
+                    <pre className="bg-[#0F0F1A] border border-white/10 rounded-lg p-4 overflow-x-auto mb-6 text-sm">{children}</pre>
+                  </div>
+                ),
+                ul: ({children}) => <ul className="text-[#D1D1D1] mb-4 list-disc list-inside space-y-1">{children}</ul>,
+                ol: ({children}) => <ol className="text-[#D1D1D1] mb-4 list-decimal list-inside space-y-1">{children}</ol>,
+                li: ({children}) => <li className="text-[#D1D1D1]">{children}</li>,
+                blockquote: ({children}) => (
+                  <blockquote className="border-l-4 border-[#007AFF] pl-4 my-6 italic text-[#D1D1D1]">
+                    {children}
+                  </blockquote>
+                ),
+                table: ({children}) => (
+                  <div className="overflow-x-auto mb-6">
+                    <table className="min-w-full border border-white/20 rounded-lg">{children}</table>
+                  </div>
+                ),
+                th: ({children}) => <th className="border border-white/20 px-4 py-2 bg-white/5 text-white font-semibold text-left">{children}</th>,
+                td: ({children}) => <td className="border border-white/20 px-4 py-2 text-[#D1D1D1]">{children}</td>,
+              }}
+            >
+              {content}
+            </ReactMarkdown>
+          </div>
+        </div>
+        
+        <div className="mt-12 text-center">
+          <Link 
+            href="/" 
+            className="inline-flex items-center px-6 py-3 bg-[#007AFF] text-white rounded-lg hover:bg-[#0056CC] transition-colors duration-200"
+          >
+            ← Back to Cheatsheets
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
