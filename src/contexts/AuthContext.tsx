@@ -122,6 +122,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(null);
       setSession(null);
     } finally {
+      // Always complete loading quickly to prevent stuck states
       setIsLoading(false);
     }
   }, [isSupabaseConfigured]);
@@ -130,8 +131,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Only run on client side to prevent SSR hydration issues
     if (!isClient) return;
     
+    // Set a timeout to ensure loading doesn't get stuck
+    const loadingTimeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000); // 3 second timeout
+    
     // Check for auth token on mount and set up auth state listener
-    refreshAuth();
+    refreshAuth().finally(() => {
+      clearTimeout(loadingTimeout);
+    });
     
     try {
       // Set up auth state change listener
@@ -147,14 +155,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               setSession(null);
             }
             setIsLoading(false);
+            clearTimeout(loadingTimeout);
           }
         );
 
-        return () => subscription.unsubscribe();
+        return () => {
+          subscription.unsubscribe();
+          clearTimeout(loadingTimeout);
+        };
       }
     } catch (error) {
       console.error('Failed to set up auth listener:', error);
       setIsLoading(false);
+      clearTimeout(loadingTimeout);
     }
   }, [refreshAuth, isClient]);
 

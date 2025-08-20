@@ -34,7 +34,7 @@ export default function RootLayout({
         <link rel="preload" href="/favicon.svg" as="image" type="image/svg+xml" />
       </head>
       <body 
-        className="min-h-screen bg-[#0a0a0f] flex flex-col"
+        className="min-h-screen flex flex-col"
         suppressHydrationWarning={true}
       >
         <HydrationProvider>

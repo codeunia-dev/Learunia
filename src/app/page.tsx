@@ -4,7 +4,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import Hero from '@/components/Hero';
 import SubjectCard from '@/components/SubjectCard';
 import PageLoader from '@/components/PageLoader';
-import StaticHomePage from '@/components/StaticHomePage';
 import ClientOnly from '@/components/ClientOnly';
 
 export default function HomePage() {
@@ -16,12 +15,7 @@ export default function HomePage() {
 }
 
 function HomeContent() {
-  const { isSupabaseConfigured } = useAuth();
-
-  // Show static fallback if Supabase is not configured
-  if (!isSupabaseConfigured) {
-    return <StaticHomePage />;
-  }
+  // Always show the full homepage - content should be accessible regardless of auth status
 
   const subjects = [
     {
@@ -216,7 +210,7 @@ function HomeContent() {
   );
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f]">
+    <div className="min-h-screen">
       <Hero />
       
       <section className="py-20">
