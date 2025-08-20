@@ -26,6 +26,19 @@ export const authConfig = {
   
   // Protected routes that require authentication
   protectedRoutes: [
+    // No protected routes - all content is now publicly accessible
+  ],
+
+  // Public routes that don't require authentication
+  publicRoutes: [
+    '/',
+    '/about',
+    '/api',
+    '/_next',
+    '/favicon.ico',
+    '/robots.txt',
+    '/sitemap.xml',
+    // All programming language routes are now public
     '/python',
     '/javascript',
     '/typescript',
@@ -50,17 +63,6 @@ export const authConfig = {
     '/docker',
     '/git',
     '/linux'
-  ],
-  
-  // Public routes that don't require authentication
-  publicRoutes: [
-    '/',
-    '/about',
-    '/api',
-    '/_next',
-    '/favicon.ico',
-    '/robots.txt',
-    '/sitemap.xml'
   ]
 };
 

@@ -1,6 +1,5 @@
 'use client';
 
-import { useAuth } from '@/contexts/AuthContext';
 import Hero from '@/components/Hero';
 import SubjectCard from '@/components/SubjectCard';
 import PageLoader from '@/components/PageLoader';
@@ -213,26 +212,26 @@ function HomeContent() {
     <div className="min-h-screen">
       <Hero />
       
-      <section className="py-20">
+      <section className="py-12 sm:py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 md:mb-4 px-2">
               Master Programming with 
               <span className="text-[#007AFF]"> Quick Cheatsheets</span>
             </h2>
-            <p className="text-xl text-[#d1d1d1] max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-[#d1d1d1] max-w-3xl mx-auto px-4">
               Access comprehensive programming references for 20+ languages and technologies. 
               From beginner basics to advanced concepts, accelerate your coding productivity.
             </p>
           </div>
 
           {/* Programming Languages */}
-          <div className="mb-16">
-            <h3 className="text-2xl font-bold text-white mb-2">Programming Languages</h3>
-            <p className="text-[#d1d1d1] mb-8">Essential languages for modern development</p>
+          <div className="mb-12 md:mb-16">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">Programming Languages</h3>
+            <p className="text-[#d1d1d1] mb-6 md:mb-8 text-sm sm:text-base">Essential languages for modern development</p>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
               {programmingLanguages.map((subject) => (
                 <SubjectCard
                   key={subject.id}
@@ -246,11 +245,11 @@ function HomeContent() {
           </div>
 
           {/* Web Technologies */}
-          <div className="mb-16">
-            <h3 className="text-2xl font-bold text-white mb-2">Web Development</h3>
-            <p className="text-[#d1d1d1] mb-8">Frontend frameworks and web technologies</p>
+          <div className="mb-12 md:mb-16">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">Web Development</h3>
+            <p className="text-[#d1d1d1] mb-6 md:mb-8 text-sm sm:text-base">Frontend frameworks and web technologies</p>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
               {webTechnologies.map((subject) => (
                 <SubjectCard
                   key={subject.id}
@@ -264,11 +263,11 @@ function HomeContent() {
           </div>
 
           {/* Backend & Database */}
-          <div className="mb-16">
-            <h3 className="text-2xl font-bold text-white mb-2">Backend & Database</h3>
-            <p className="text-[#d1d1d1] mb-8">Server-side technologies and data management</p>
+          <div className="mb-12 md:mb-16">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">Backend & Database</h3>
+            <p className="text-[#d1d1d1] mb-6 md:mb-8 text-sm sm:text-base">Server-side technologies and data management</p>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
               {backendTools.map((subject) => (
                 <SubjectCard
                   key={subject.id}
@@ -282,11 +281,11 @@ function HomeContent() {
           </div>
 
           {/* DevOps & Tools */}
-          <div className="mb-16">
-            <h3 className="text-2xl font-bold text-white mb-2">DevOps & Tools</h3>
-            <p className="text-[#d1d1d1] mb-8">Development tools and deployment technologies</p>
+          <div className="mb-12 md:mb-16">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">DevOps & Tools</h3>
+            <p className="text-[#d1d1d1] mb-6 md:mb-8 text-sm sm:text-base">Development tools and deployment technologies</p>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
               {devOpsTools.map((subject) => (
                 <SubjectCard
                   key={subject.id}
@@ -300,11 +299,11 @@ function HomeContent() {
           </div>
 
           {/* Mobile Development */}
-          <div className="mb-16">
-            <h3 className="text-2xl font-bold text-white mb-2">Mobile Development</h3>
-            <p className="text-[#d1d1d1] mb-8">Cross-platform mobile app development</p>
+          <div className="mb-12 md:mb-16">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">Mobile Development</h3>
+            <p className="text-[#d1d1d1] mb-6 md:mb-8 text-sm sm:text-base">Cross-platform mobile app development</p>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
               {mobileFrameworks.map((subject) => (
                 <SubjectCard
                   key={subject.id}

@@ -41,18 +41,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [session, setSession] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isClient, setIsClient] = useState(false);
-  
-  // Check if Supabase is properly configured
+
+  // Check if Supabase is configured
   const isSupabaseConfigured = !!(
     process.env.NEXT_PUBLIC_SUPABASE_URL && 
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   );
-
-  // Hydration fix - only run client-side logic after mount
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   const login = useCallback(async (email: string, password: string) => {
     try {
@@ -80,7 +74,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setIsLoading(false);
     }
   }, []);
-  
+
   const logout = async () => {
     try {
       if (supabase) {
@@ -99,16 +93,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       
       // Skip auth if Supabase is not configured
       if (!isSupabaseConfigured || !supabase) {
-        setUser(null);
-        setSession(null);
-        setIsLoading(false);
+        console.log('Supabase not configured, skipping auth refresh');
         return;
       }
-      
+
+      // Get the current session
       const { data, error } = await supabase.auth.getSession();
       
-      if (error) throw error;
-      
+      if (error) {
+        console.error('Auth session error:', error);
+        setUser(null);
+        setSession(null);
+        return;
+      }
+
       if (data.session?.user) {
         const convertedUser = convertSupabaseUser(data.session.user);
         setUser(convertedUser);
@@ -122,56 +120,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(null);
       setSession(null);
     } finally {
-      // Always complete loading quickly to prevent stuck states
       setIsLoading(false);
     }
   }, [isSupabaseConfigured]);
 
+  // Initialize auth on mount
   useEffect(() => {
-    // Only run on client side to prevent SSR hydration issues
-    if (!isClient) return;
-    
-    // Set a timeout to ensure loading doesn't get stuck
-    const loadingTimeout = setTimeout(() => {
-      setIsLoading(false);
-    }, 3000); // 3 second timeout
-    
-    // Check for auth token on mount and set up auth state listener
-    refreshAuth().finally(() => {
-      clearTimeout(loadingTimeout);
-    });
-    
-    try {
-      // Set up auth state change listener
-      if (supabase) {
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(
-          async (event, session) => {
-            if (session?.user) {
-              const convertedUser = convertSupabaseUser(session.user);
-              setUser(convertedUser);
-              setSession(session);
-            } else {
-              setUser(null);
-              setSession(null);
-            }
-            setIsLoading(false);
-            clearTimeout(loadingTimeout);
-          }
-        );
+    refreshAuth();
+  }, [refreshAuth]);
 
-        return () => {
-          subscription.unsubscribe();
-          clearTimeout(loadingTimeout);
-        };
+  // Listen for auth changes
+  useEffect(() => {
+    if (!supabase || !isSupabaseConfigured) return;
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (session?.user) {
+          const convertedUser = convertSupabaseUser(session.user);
+          setUser(convertedUser);
+          setSession(session);
+        } else {
+          setUser(null);
+          setSession(null);
+        }
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error('Failed to set up auth listener:', error);
-      setIsLoading(false);
-      clearTimeout(loadingTimeout);
-    }
-  }, [refreshAuth, isClient]);
+    );
 
-  const value: AuthContextType = {
+    return () => subscription.unsubscribe();
+  }, [isSupabaseConfigured]);
+
+  const value = {
     user,
     session,
     isLoading,

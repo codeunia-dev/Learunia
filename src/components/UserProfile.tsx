@@ -7,7 +7,22 @@ export default function UserProfile() {
   const { user, logout, isAuthenticated } = useAuth();
 
   if (!isAuthenticated || !user) {
-    return null;
+    return (
+      <div className="flex items-center space-x-3">
+        <a 
+          href={`https://codeunia.com/auth/signin?returnUrl=${encodeURIComponent(window.location.href)}`}
+          className="text-[#d1d1d1] hover:text-white transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-white/10"
+        >
+          Sign In
+        </a>
+        <a 
+          href={`https://codeunia.com/auth/signup?returnUrl=${encodeURIComponent(window.location.href)}`}
+          className="bg-[#007AFF] hover:bg-[#0056CC] text-white px-4 py-2 rounded-lg transition-colors duration-200 font-medium"
+        >
+          Sign Up
+        </a>
+      </div>
+    );
   }
 
   return (

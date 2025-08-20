@@ -11,31 +11,35 @@ interface SubjectCardProps {
   href: string;
 }
 
-const SubjectCard = memo(function SubjectCard({ title, description, iconName, href }: SubjectCardProps) {
-  const IconComponent = Icons[iconName];
+function SubjectCard({ title, description, iconName, href }: SubjectCardProps) {
+  const IconComponent = iconName ? Icons[iconName] : null;
+
   return (
     <Link 
-      href={href} 
-      className="block focus:outline-none focus:ring-2 focus:ring-[#007AFF] focus:ring-offset-2 focus:ring-offset-[#0F0F1A] rounded-xl"
-      aria-label={`Learn ${title} - ${description}`}
+      href={href}
+      className="group block p-4 sm:p-6 bg-[#1a1a1f]/50 backdrop-blur-sm border border-[#2a2a35] rounded-xl hover:border-[#007AFF] transition-all duration-300 hover:bg-[#1a1a1f]/80 hover:scale-105"
     >
-      <div className="group bg-gradient-to-br from-[#1A1A2E] to-[#16213E] rounded-xl p-6 border border-white/10 card-hover glow-hover h-full">
-        <div className="flex items-center space-x-4 mb-4">
-          <div className="text-[#007AFF] group-hover:scale-110 transition-transform duration-200" aria-hidden="true">
-            <IconComponent />
+      <div className="flex flex-col items-center text-center space-y-3 sm:space-y-4">
+        {IconComponent && (
+          <div className="p-2 sm:p-3 bg-[#007AFF]/10 rounded-lg group-hover:bg-[#007AFF]/20 transition-colors duration-300">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 text-[#007AFF]">
+              <IconComponent />
+            </div>
           </div>
-          <h3 className="text-xl font-semibold text-white group-hover:text-[#007AFF] transition-colors duration-200">
+        )}
+        <div className="flex-1 space-y-1 sm:space-y-2">
+          <h3 className="text-base sm:text-lg font-semibold text-white group-hover:text-[#007AFF] transition-colors duration-300">
             {title}
           </h3>
+          <p className="text-xs sm:text-sm text-[#8B949E] group-hover:text-[#d1d1d1] transition-colors duration-300 leading-relaxed">
+            {description}
+          </p>
         </div>
-        <p className="text-[#D1D1D1] text-sm leading-relaxed">
-          {description}
-        </p>
       </div>
     </Link>
   );
-});
+}
 
-export default SubjectCard;
+export default memo(SubjectCard);
 
 
