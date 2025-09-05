@@ -7,25 +7,42 @@ import { Metadata } from 'next';
 import { getContentSafely, sanitizeMarkdown } from '@/lib/content';
 import { generateSEO } from '@/lib/seo';
 import { ArticleStructuredData } from '@/components/StructuredData';
+import { subjects } from '@/lib/subjects';
+import { notFound } from 'next/navigation';
 
-export const metadata: Metadata = generateSEO({
-  title: "JavaScript Cheatsheet — Codeunia",
-  description: "Master modern JavaScript with ES6+ features, async programming, and DOM manipulation. Complete JavaScript reference guide.",
-  keywords: ["javascript", "js", "es6", "programming", "web development", "cheatsheet"],
-  url: "https://learn.codeunia.com/javascript"
-});
+export async function generateStaticParams() {
+  return Object.keys(subjects).map((subject) => ({
+    subject,
+  }));
+}
 
-export default function JavaScriptPage() {
-  const rawContent = getContentSafely('javascript.md', 'JavaScript Cheatsheet');
+export async function generateMetadata({ params }: { params: Promise<{ subject: string }> }): Promise<Metadata> {
+  const awaitedParams = await params;
+  const subject = subjects[awaitedParams.subject];
+  if (!subject) {
+    return notFound();
+  }
+  return generateSEO(subject);
+}
+
+export default async function SubjectPage({ params }: { params: Promise<{ subject: string }> }) {
+  const awaitedParams = await params;
+  const subject = subjects[awaitedParams.subject];
+
+  if (!subject) {
+    return notFound();
+  }
+
+  const rawContent = getContentSafely(subject.markdownFile, subject.cheatsheetName);
   const content = sanitizeMarkdown(rawContent);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0F0F1A] to-[#1A1A2E]">
       <ArticleStructuredData
-        title="JavaScript Cheatsheet"
-        description="Master modern JavaScript with ES6+ features, async programming, and DOM manipulation"
-        url="https://learn.codeunia.com/javascript"
-        subject="JavaScript"
+        title={subject.cheatsheetName}
+        description={subject.description}
+        url={subject.url}
+        subject={subject.subject}
       />
       <div className="max-w-4xl mx-auto px-4 py-20">
         <div className="mb-8">
@@ -40,10 +57,10 @@ export default function JavaScriptPage() {
             Back to Subjects
           </Link>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            JavaScript <span className="text-[#007AFF]">Cheatsheet</span>
+            {subject.subject} <span className="text-[#007AFF]">Cheatsheet</span>
           </h1>
           <p className="text-xl text-[#D1D1D1]">
-            Master modern JavaScript with ES6+ features, async programming, and DOM manipulation
+            {subject.description}
           </p>
         </div>
         
