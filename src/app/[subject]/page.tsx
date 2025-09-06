@@ -1,14 +1,17 @@
-import ReactMarkdown from 'react-markdown';
+import { MDXRemote } from 'next-mdx-remote/rsc';
 import rehypeHighlight from 'rehype-highlight';
+import rehypeSlug from 'rehype-slug';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import Link from 'next/link';
 import { Metadata } from 'next';
-import { getContentSafely, sanitizeMarkdown } from '@/lib/content';
+import { getContentWithMeta } from '@/lib/content';
 import { generateSEO } from '@/lib/seo';
 import { ArticleStructuredData } from '@/components/StructuredData';
 import { subjects } from '@/lib/subjects';
 import { notFound } from 'next/navigation';
+import ReactMarkdown from 'react-markdown';
 
 export async function generateStaticParams() {
   return Object.keys(subjects).map((subject) => ({
@@ -33,8 +36,25 @@ export default async function SubjectPage({ params }: { params: Promise<{ subjec
     return notFound();
   }
 
-  const rawContent = getContentSafely(subject.markdownFile, subject.cheatsheetName);
-  const content = sanitizeMarkdown(rawContent);
+  const { content, isMDX } = getContentWithMeta(subject.markdownFile, subject.cheatsheetName);
+
+  // Minimal MDX components map (can be extracted later)
+  // const mdxComponents = {
+  //   a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+  //     <a {...props} className={"text-[#007AFF] hover:text-[#0056CC] underline underline-offset-2 " + (props.className || '')} />
+  //   ),
+  // };
+  const mdxComponents = {
+    a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+      <a
+        {...props}
+        className={
+          "text-white hover:text-gray-300 transition-colors " +
+          (props.className || "")
+        }
+      />
+    ),
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0F0F1A] to-[#1A1A2E]">
@@ -65,12 +85,25 @@ export default async function SubjectPage({ params }: { params: Promise<{ subjec
         </div>
         
         <div className="prose prose-invert prose-lg max-w-none bg-[#1A1A2E] rounded-lg p-8">
-          <ReactMarkdown 
-            rehypePlugins={[rehypeHighlight, rehypeRaw]}
-            remarkPlugins={[remarkGfm]}
-          >
-            {content}
-          </ReactMarkdown>
+          {isMDX ? (
+            <MDXRemote 
+              source={content}
+              options={{
+                mdxOptions: {
+                  remarkPlugins: [remarkGfm],
+                  rehypePlugins: [rehypeHighlight, rehypeSlug, [rehypeAutolinkHeadings, { behavior: 'wrap' }]],
+                },
+              }}
+              components={mdxComponents}
+            />
+          ) : (
+            <ReactMarkdown 
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeHighlight, rehypeRaw]}
+            >
+              {content}
+            </ReactMarkdown>
+          )}
         </div>
       </div>
     </div>
