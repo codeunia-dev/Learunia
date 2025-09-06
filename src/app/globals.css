@@ -68,7 +68,7 @@
   }
 
   .prose code {
-    @apply bg-blue-500/10 text-blue-500 px-2 py-1 rounded text-sm font-mono;
+    @apply font-mono px-1 py-0.5 rounded;
   }
 
   .prose pre {
@@ -76,7 +76,7 @@
   }
 
   .prose pre code {
-    @apply bg-transparent text-gray-300 p-0;
+    @apply bg-transparent p-0 font-mono;
   }
 
   .prose blockquote {
@@ -147,6 +147,3 @@
 .prose h6 a:hover {
   color: #007AFF; /* matches your back button */
 }
-
-
-
