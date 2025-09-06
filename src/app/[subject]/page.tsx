@@ -12,6 +12,7 @@ import { ArticleStructuredData } from '@/components/StructuredData';
 import { subjects } from '@/lib/subjects';
 import { notFound } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
+import mdxComponents from '@/components/mdx';
 
 export async function generateStaticParams() {
   return Object.keys(subjects).map((subject) => ({
@@ -37,24 +38,6 @@ export default async function SubjectPage({ params }: { params: Promise<{ subjec
   }
 
   const { content, isMDX } = getContentWithMeta(subject.markdownFile, subject.cheatsheetName);
-
-  // Minimal MDX components map (can be extracted later)
-  // const mdxComponents = {
-  //   a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
-  //     <a {...props} className={"text-[#007AFF] hover:text-[#0056CC] underline underline-offset-2 " + (props.className || '')} />
-  //   ),
-  // };
-  const mdxComponents = {
-    a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
-      <a
-        {...props}
-        className={
-          "text-white hover:text-gray-300 transition-colors " +
-          (props.className || "")
-        }
-      />
-    ),
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0F0F1A] to-[#1A1A2E]">
