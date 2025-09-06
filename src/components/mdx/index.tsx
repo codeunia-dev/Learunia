@@ -1,5 +1,7 @@
 import Callout from './Callout';
 import CodeBlock from './CodeBlock';
+import Tabs, { Tab } from './Tabs';
+import CodeComparison from './CodeComparison';
 import type { MDXComponents } from 'mdx/types';
 
 // Central MDX components map to be passed to MDXRemote
@@ -18,6 +20,9 @@ export const mdxComponents: MDXComponents = {
 
   // Custom shortcodes usable directly in MDX
   Callout,
+  Tabs,
+  Tab,
+  CodeComparison,
 };
 
 export default mdxComponents;
