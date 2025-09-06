@@ -74,7 +74,7 @@ export default async function SubjectPage({ params }: { params: Promise<{ subjec
               options={{
                 mdxOptions: {
                   remarkPlugins: [remarkGfm],
-                  rehypePlugins: [rehypeHighlight, rehypeSlug, [rehypeAutolinkHeadings, { behavior: 'wrap' }]],
+                  rehypePlugins: [[rehypeHighlight, { detect: true }], rehypeSlug, [rehypeAutolinkHeadings, { behavior: 'wrap' }]],
                 },
               }}
               components={mdxComponents}
@@ -82,7 +82,7 @@ export default async function SubjectPage({ params }: { params: Promise<{ subjec
           ) : (
             <ReactMarkdown 
               remarkPlugins={[remarkGfm]}
-              rehypePlugins={[rehypeHighlight, rehypeRaw]}
+              rehypePlugins={[[rehypeHighlight, { detect: true }], rehypeRaw]}
             >
               {content}
             </ReactMarkdown>
