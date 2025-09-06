@@ -1,0 +1,98 @@
+MDX Migration Summary (Markdown -> MDX)
+=====================================
+
+Date: 2025-09-06
+Scope: Enable MDX rendering in App Router pages, migrate Python subject as a demo, preserve SEO and highlighting.
+
+What changed
+------------
+1) Dependencies (package.json)
+   - Added:
+     - next-mdx-remote@^5.0.0
+     - rehype-slug@^6.0.0
+     - rehype-autolink-headings@^7.0.0
+     - remark-breaks@^4.0.0 (optional, installed for convenience)
+   - Kept (for now):
+     - react-markdown (to be removed after full migration)
+
+2) Content loader (src/lib/content.ts)
+   - New helpers:
+     - resolveContentPath(): Prefer .mdx; fallback to .md.
+     - getContentWithMeta(): Returns { content, isMDX }.
+   - Legacy kept:
+     - getContentSafely() still available for any remaining .md consumers.
+     - sanitizeMarkdown() retained for legacy .md only.
+
+3) Subject page renderer (src/app/[subject]/page.tsx)
+   - Switched from react-markdown to MDXRemote (next-mdx-remote/rsc).
+   - MDX options/plugins:
+     - remark-gfm
+     - rehype-highlight (code highlighting)
+     - rehype-slug (heading IDs)
+     - rehype-autolink-headings (clickable linked headings)
+   - Added a minimal MDX component map for anchors (<a>), styled to white links.
+
+4) Subject registry (src/lib/subjects.ts)
+   - Python entry updated to point to python.mdx (instead of python.md).
+
+5) Content files (src/content/)
+   - Migrated: python.md -> python.mdx (content unchanged; MDX is backward compatible with plain Markdown).
+
+6) Styling adjustments (src/app/globals.css)
+   - Ensured autolinked heading anchors within .prose render as white and no underline by default; blue on hover for heading anchors.
+
+Why this approach
+-----------------
+- next-mdx-remote works seamlessly with filesystem content and Next.js App Router (RSC).
+- MDX unlocks JSX components inside content (callouts, tabs, quizzes) while preserving current SEO and static generation.
+- Rehype plugins add usability/SEO via deep-linkable headings.
+
+Verification steps
+------------------
+1) Install packages
+   npm install
+
+2) Build and run
+   npm run build
+   npm start
+
+3) Manual checks on /python
+   - Headings are clickable (URL gains #hash on click).
+   - Links inside content render white, with subtle hover (as configured).
+   - Code blocks still highlight correctly.
+   - Page metadata and structured data remain intact.
+
+How to add custom MDX components (next step)
+--------------------------------------------
+- Create directory: src/components/mdx/
+- Add components like Callout, Tabs, CodeBlock, Quiz.
+- Export a components map and pass it to <MDXRemote components={...} /> to enable custom shortcodes in content:
+  Example in MDX: <Callout type="info">MDX is active</Callout>
+
+Gradual migration plan
+----------------------
+- Convert subjects in batches: .md -> .mdx.
+- Update src/lib/subjects.ts per subject to reference the .mdx filename.
+- Once all subjects are MDX, remove react-markdown and any legacy sanitization paths.
+
+Rollback plan
+-------------
+- In src/app/[subject]/page.tsx, revert to react-markdown:
+  - Replace MDXRemote with ReactMarkdown and prior plugins.
+- In src/lib/subjects.ts, point subjects back to .md.
+- In src/lib/content.ts, you can continue using getContentSafely() and sanitizeMarkdown().
+
+Files touched in this migration
+-------------------------------
+- package.json
+- src/lib/content.ts
+- src/app/[subject]/page.tsx
+- src/lib/subjects.ts
+- src/app/globals.css (styling for heading anchors)
+- src/content/python.mdx (renamed from .md)
+
+Notes
+-----
+- MDX is backward compatible with plain Markdown; no content edits were necessary for python.mdx.
+- We pinned rehype-autolink-headings to a published version (^7.0.0) to avoid npm ETARGET issues.
+- Future improvement: extract MDX components to src/components/mdx and consider Contentlayer for typed content and build-time compilation.

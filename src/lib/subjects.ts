@@ -1,4 +1,3 @@
-
 export interface Subject {
   title: string;
   description: string;
@@ -170,7 +169,7 @@ export const subjects: { [key: string]: Subject } = {
     url: "https://learn.codeunia.com/python",
     subject: "Python",
     cheatsheetName: "Python Cheatsheet",
-    markdownFile: "python.md",
+    markdownFile: "python.mdx",
   },
   react: {
     title: "React Cheatsheet — Codeunia",
