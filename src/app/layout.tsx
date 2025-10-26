@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import 'highlight.js/styles/github-dark-dimmed.css';
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+
 import { AuthProvider } from "@/contexts/AuthContext";
 import HydrationProvider from "@/components/HydrationProvider";
 import CrossDomainAuth from "@/components/CrossDomainAuth";
@@ -45,7 +45,7 @@ export default function RootLayout({
             </ClientOnly>
             <Navbar />
             <main className="flex-1">{children}</main>
-            <Footer />
+           
           </AuthProvider>
         </HydrationProvider>
       </body>

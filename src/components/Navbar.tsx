@@ -12,55 +12,67 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 bg-[#0a0a0f]/95 backdrop-blur-md border-b border-[#2a2a35]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-14 sm:h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <div className="sm:hidden">
-              <Logo size={28} showWordmark={true} />
-            </div>
-            <div className="hidden sm:block">
-              <Logo size={32} showWordmark={true} />
-            </div>
-          </Link>
+        <div className="flex items-center h-14 sm:h-16">
+          {/* Left: Logo and Learunia */}
+          <div className="flex items-center">
+            <Link href="https://codeunia.com/" className="flex items-center">
+              <div className="sm:hidden">
+                <Logo size={28} showWordmark={true} />
+              </div>
+              <div className="hidden sm:block">
+                <Logo size={32} showWordmark={true} />
+              </div>
+            </Link>
+          </div>
 
-          {/* Desktop Navigation Links */}
-          <div className="hidden md:flex items-center space-x-4 lg:space-x-6">
-            <a 
-              href="https://www.codeunia.com/" 
-              className="text-[#d1d1d1] hover:text-white transition-colors duration-200 text-sm px-3 py-2 rounded-lg hover:bg-[#1a1a1f]"
-            >
-              Home
-            </a>
-            <a 
-              href="https://www.codeunia.com/about" 
-              className="text-[#d1d1d1] hover:text-white transition-colors duration-200 text-sm px-3 py-2 rounded-lg hover:bg-[#1a1a1f]"
-            >
-              About
-            </a>
-            <a 
-              href="https://www.codeunia.com/opportunities" 
-              className="text-[#d1d1d1] hover:text-white transition-colors duration-200 text-sm px-3 py-2 rounded-lg hover:bg-[#1a1a1f]"
-            >
-              Opportunities
-            </a>
-            <a 
-              href="https://www.codeunia.com/blog" 
-              className="text-[#d1d1d1] hover:text-white transition-colors duration-200 text-sm px-3 py-2 rounded-lg hover:bg-[#1a1a1f]"
-            >
-              Blog
-            </a>
-            <a 
-              href="https://www.codeunia.com/join" 
-              className="bg-[#007AFF] hover:bg-[#0056CC] text-white px-4 py-2 rounded-lg transition-colors duration-200 text-sm font-medium"
-            >
-              Join Codeunia
-            </a>
-            <a 
-              href="https://www.codeunia.com/contact" 
-              className="text-[#d1d1d1] hover:text-white transition-colors duration-200 text-sm px-3 py-2 rounded-lg hover:bg-[#1a1a1f]"
-            >
-              Contact
-            </a>
+          {/* Middle: Desktop Navigation Links */}
+          <div className="flex-1 flex justify-center">
+            <div className="hidden md:flex items-center space-x-4 lg:space-x-6">
+              <Link
+                href="/"
+                className="text-[#d1d1d1] hover:text-white transition-colors duration-200 text-sm px-3 py-2 rounded-lg hover:bg-[#1a1a1f]"
+              >
+                Home
+              </Link>
+              <a
+                href="https://www.codeunia.com/about"
+                className="text-[#d1d1d1] hover:text-white transition-colors duration-200 text-sm px-3 py-2 rounded-lg hover:bg-[#1a1a1f]"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                About
+              </a>
+              <Link
+                href="/cheatsheets"
+                className="text-[#d1d1d1] hover:text-white transition-colors duration-200 text-sm px-3 py-2 rounded-lg hover:bg-[#1a1a1f]"
+              >
+                Cheatsheets
+              </Link>
+              <Link
+                href="/docs"
+                className="text-[#d1d1d1] hover:text-white transition-colors duration-200 text-sm px-3 py-2 rounded-lg hover:bg-[#1a1a1f]"
+              >
+                Docs
+              </Link>
+              <Link
+                href="/roadmap"
+                className="text-[#d1d1d1] hover:text-white transition-colors duration-200 text-sm px-3 py-2 rounded-lg hover:bg-[#1a1a1f]"
+              >
+                Roadmap
+              </Link>
+              <a
+                href="https://www.codeunia.com/contact"
+                className="text-[#d1d1d1] hover:text-white transition-colors duration-200 text-sm px-3 py-2 rounded-lg hover:bg-[#1a1a1f]"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Contact
+              </a>
+            </div>
+          </div>
+
+          {/* Right: Login and Signup */}
+          <div className="hidden md:flex items-center">
             <ClientOnly fallback={<div className="w-8 h-8"></div>}>
               <UserProfile />
             </ClientOnly>
@@ -91,48 +103,52 @@ export default function Navbar() {
         {isMobileMenuOpen && (
           <div className="md:hidden border-t border-[#2a2a35] bg-[#0a0a0f]/98 backdrop-blur-md">
             <div className="px-2 py-3 space-y-1">
-              <a 
-                href="https://www.codeunia.com/" 
+              <Link 
+                href="/" 
                 className="flex items-center text-[#d1d1d1] hover:text-white hover:bg-[#1a1a1f] transition-colors duration-200 px-3 py-3 rounded-lg text-base"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Home
-              </a>
+              </Link>
               <a 
                 href="https://www.codeunia.com/about" 
                 className="flex items-center text-[#d1d1d1] hover:text-white hover:bg-[#1a1a1f] transition-colors duration-200 px-3 py-3 rounded-lg text-base"
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 About
               </a>
-              <a 
-                href="https://www.codeunia.com/opportunities" 
+              <Link 
+                href="/cheatsheets" 
                 className="flex items-center text-[#d1d1d1] hover:text-white hover:bg-[#1a1a1f] transition-colors duration-200 px-3 py-3 rounded-lg text-base"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Opportunities
-              </a>
-              <a 
-                href="https://www.codeunia.com/blog" 
+                Cheatsheets
+              </Link>
+              <Link
+                href="/docs"
                 className="flex items-center text-[#d1d1d1] hover:text-white hover:bg-[#1a1a1f] transition-colors duration-200 px-3 py-3 rounded-lg text-base"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Blog
-              </a>
-              <a 
-                href="https://www.codeunia.com/contact" 
+                Docs
+              </Link>
+              <a
+                href="https://www.codeunia.com/contact"
                 className="flex items-center text-[#d1d1d1] hover:text-white hover:bg-[#1a1a1f] transition-colors duration-200 px-3 py-3 rounded-lg text-base"
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Contact
               </a>
-              <a 
-                href="https://www.codeunia.com/join" 
-                className="flex items-center bg-[#007AFF] hover:bg-[#0056CC] text-white transition-colors duration-200 px-3 py-3 rounded-lg text-base font-medium mt-2"
+              <Link
+                href="/roadmap"
+                className="flex items-center text-[#d1d1d1] hover:text-white hover:bg-[#1a1a1f] transition-colors duration-200 px-3 py-3 rounded-lg text-base"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Join Codeunia
-              </a>
+                Roadmap
+              </Link>
             </div>
           </div>
         )}
@@ -140,5 +156,3 @@ export default function Navbar() {
     </nav>
   );
 }
-
-
