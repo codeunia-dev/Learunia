@@ -1,0 +1,64 @@
+# Docker Documentation
+
+This guide introduces Docker containerization fundamentals, focusing on concepts and best practices for developers using the Codeunia Learn platform.
+
+## Overview
+
+Docker enables packaging applications with dependencies into portable containers. It simplifies deployment, scaling, and environment consistency across development and production.
+
+## Docker Fundamentals
+
+### Images
+
+Read-only templates for containers, built from Dockerfiles.
+
+### Containers
+
+Runnable instances of images, isolated environments.
+
+### Dockerfile
+
+Script defining image build steps.
+
+### Docker Compose
+
+Tool for defining multi-container applications.
+
+## Basic Commands
+
+- `docker build`: Build image from Dockerfile.
+- `docker run`: Create and start container.
+- `docker ps`: List containers.
+- `docker images`: List images.
+- `docker stop`: Stop container.
+- `docker rm`: Remove container.
+
+## Volumes
+
+Persist data beyond container lifecycle.
+
+## Networks
+
+Connect containers for communication.
+
+## Best Practices
+
+Use multi-stage builds, minimize image layers, and secure containers.
+
+## Orchestration
+
+Kubernetes manages container clusters at scale.
+
+## Resources and References
+
+- [Docker Documentation](https://docs.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/)
+- [Docker Hub](https://hub.docker.com/)
+
+## Troubleshooting
+
+Common issues include port conflicts, image build failures, and networking problems. Use `docker logs` for debugging.
+
+## Development Setup
+
+Install Docker Desktop, write Dockerfiles, and integrate with CI/CD.
