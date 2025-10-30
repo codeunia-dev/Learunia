@@ -1,0 +1,105 @@
+# TypeScript Documentation
+
+This guide introduces TypeScript programming theory, focusing on concepts and best practices for developers using the Codeunia Learn platform.
+
+## Overview
+
+TypeScript is a superset of JavaScript that adds static typing, enhancing code reliability and maintainability. It compiles to plain JavaScript, allowing seamless integration with existing JS ecosystems. TypeScript supports object-oriented and functional programming paradigms, making it suitable for large-scale applications.
+
+## TypeScript Fundamentals
+
+### Variables and Data Types
+
+Variables are declared with `let` or `const`, and types can be explicitly annotated. TypeScript introduces static typing while maintaining JavaScript's dynamic nature. Common data types include:
+
+- **String**: Textual data.
+- **Number**: Numeric values (integers and floats).
+- **Boolean**: True or False values.
+- **Array**: Ordered collections.
+- **Tuple**: Fixed-length arrays with known types.
+- **Enum**: Named constants.
+- **Any**: Opt-out of type checking.
+- **Void**: Absence of any type.
+- **Null** and **Undefined**: Specific absence values.
+
+Type annotations use syntax like `let variable: Type`.
+
+### Strings
+
+Strings support template literals for interpolation and multi-line strings. Methods for manipulation include slicing, replacing, and case conversion.
+
+### Arrays
+
+Arrays are typed collections, supporting generic types like `Array<Type>` or `Type[]`. They include methods for iteration, transformation, and mutation.
+
+### Objects and Interfaces
+
+Objects represent structured data. Interfaces define contracts for object shapes, enabling type checking and IntelliSense.
+
+## Control Flow
+
+### Conditional Statements
+
+Control flow uses `if`, `else if`, and `else`. The ternary operator and switch statements are also supported.
+
+### Loops
+
+`for`, `for...of`, `for...in`, and `while` loops handle iteration. Array methods like `forEach`, `map`, and `filter` provide functional alternatives.
+
+## Functions
+
+Functions can be typed with parameter and return type annotations. They support default parameters, rest parameters, and overloads. Arrow functions maintain lexical `this`.
+
+## Classes and Object-Oriented Programming
+
+TypeScript enhances JavaScript classes with access modifiers (`public`, `private`, `protected`), abstract classes, and interfaces. It supports inheritance, polymorphism, and generics.
+
+## Error Handling
+
+Exception handling uses `try`, `catch`, and `finally`. Custom error classes can extend the built-in `Error` class.
+
+## Modules and Namespaces
+
+Code organization uses ES6 modules (`import`/`export`) and namespaces for grouping related code.
+
+## Generics
+
+Generics enable reusable components that work with multiple types, providing type safety and flexibility.
+
+## Decorators
+
+Decorators are experimental features for meta-programming, allowing modification of classes, methods, and properties at design time.
+
+## Integration with JavaScript
+
+TypeScript compiles to JavaScript, supporting various module systems and targeting different ECMAScript versions.
+
+## Best Practices
+
+Use strict type checking, avoid `any`, and leverage interfaces for contracts. Follow naming conventions and use tools like ESLint for code quality.
+
+## Testing
+
+Testing frameworks like Jest work seamlessly with TypeScript. Type definitions for test libraries ensure type safety.
+
+## Performance Optimization
+
+TypeScript's static analysis helps catch errors early. Compiled output is optimized JavaScript.
+
+## Deployment
+
+TypeScript integrates with build tools like Webpack and Babel for compilation and bundling.
+
+## Resources and References
+
+- [TypeScript Official Documentation](https://www.typescriptlang.org/docs/)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
+- [DefinitelyTyped](https://definitelytyped.org/)
+
+## Troubleshooting
+
+Common issues include type errors, compilation failures, and integration with JavaScript libraries. Use `tsc` for compilation and debugging.
+
+## Development Setup
+
+Install TypeScript globally or per-project. Configure `tsconfig.json` for compilation settings. Use IDEs with TypeScript support for better development experience.

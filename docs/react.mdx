@@ -1,0 +1,83 @@
+# React Documentation
+
+This guide introduces React programming theory, focusing on concepts and best practices for developers using the Codeunia Learn platform.
+
+## Overview
+
+React is a JavaScript library for building user interfaces, particularly single-page applications. It uses a component-based architecture and virtual DOM for efficient rendering. Developed by Facebook, React emphasizes declarative programming and reusability.
+
+## React Fundamentals
+
+### Components
+
+Components are the building blocks of React apps. They can be functional or class-based. Functional components use hooks for state and lifecycle.
+
+### JSX
+
+JSX is a syntax extension allowing HTML-like code in JavaScript. It compiles to `React.createElement` calls.
+
+### Props
+
+Props pass data from parent to child components. They are immutable.
+
+### State
+
+State manages component data that changes over time. Use `useState` hook in functional components.
+
+## Hooks
+
+Hooks like `useEffect`, `useContext`, `useReducer` manage side effects, context, and complex state.
+
+## Lifecycle Methods
+
+Class components use methods like `componentDidMount`. Functional components use `useEffect`.
+
+## Event Handling
+
+Events are handled with camelCase syntax (e.g., `onClick`). Event handlers are functions.
+
+## Conditional Rendering
+
+Use conditional operators or logical && for dynamic content.
+
+## Lists and Keys
+
+Render lists with `map()`. Keys help React identify changes.
+
+## Forms
+
+Controlled components manage form state. Libraries like Formik simplify complex forms.
+
+## Context API
+
+Context provides global state without prop drilling.
+
+## Best Practices
+
+Keep components small, use functional components with hooks, and optimize with `React.memo` and `useMemo`.
+
+## Testing
+
+Jest and React Testing Library test components and interactions.
+
+## Performance Optimization
+
+Use `React.memo`, `useMemo`, `useCallback`, and lazy loading to optimize renders.
+
+## Deployment
+
+Build with Create React App or Vite. Deploy to platforms like Vercel or Netlify.
+
+## Resources and References
+
+- [React Official Documentation](https://reactjs.org/docs/)
+- [React Hooks](https://reactjs.org/docs/hooks-intro.html)
+- [React Router](https://reactrouter.com/)
+
+## Troubleshooting
+
+Common issues include infinite loops, prop drilling, and key warnings. Use React DevTools for debugging.
+
+## Development Setup
+
+Use Create React App for quick starts. Set up ESLint, Prettier, and version control.

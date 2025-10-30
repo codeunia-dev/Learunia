@@ -1,0 +1,101 @@
+# C++ Documentation
+
+This guide introduces C++ programming theory, focusing on concepts and best practices for developers using the Codeunia Learn platform.
+
+## Overview
+
+C++ is a powerful, high-performance programming language that extends C with object-oriented features, generics, and modern abstractions. It provides low-level control with high-level constructs, making it suitable for system programming, game development, and performance-critical applications.
+
+## C++ Fundamentals
+
+### Variables and Data Types
+
+Variables are declared with types, and C++ is statically typed. Fundamental types include:
+
+- **int**: Integer types (short, int, long, long long).
+- **float/double**: Floating-point types.
+- **char**: Character types.
+- **bool**: Boolean type.
+- **void**: Absence of type.
+
+Pointers and references allow memory manipulation. User-defined types include structs, classes, and enums.
+
+### Strings
+
+C++ provides `std::string` from the Standard Library for string handling, supporting concatenation, comparison, and manipulation.
+
+### Arrays and Vectors
+
+Arrays are fixed-size collections. `std::vector` provides dynamic arrays with automatic memory management.
+
+### Pointers and Memory Management
+
+Pointers store memory addresses. Manual memory management with `new` and `delete` is powerful but error-prone. Smart pointers (`unique_ptr`, `shared_ptr`) provide safer alternatives.
+
+## Control Flow
+
+### Conditional Statements
+
+`if`, `else if`, and `else` control branching. The switch statement handles multiple cases.
+
+### Loops
+
+`for`, range-based `for`, `while`, and `do-while` loops support iteration. Loop control uses `break` and `continue`.
+
+## Functions
+
+Functions can be overloaded and templated. They support default arguments and references for efficiency.
+
+## Classes and Object-Oriented Programming
+
+C++ supports encapsulation, inheritance, and polymorphism. Classes define objects with data members and member functions. Virtual functions enable runtime polymorphism.
+
+## Templates and Generic Programming
+
+Templates allow generic code that works with any type, enabling reusable algorithms and data structures.
+
+## Error Handling
+
+Exception handling uses `try`, `catch`, and `throw`. RAII (Resource Acquisition Is Initialization) ensures resource cleanup.
+
+## File Operations
+
+The `<fstream>` library provides classes for file input/output. Streams handle reading and writing data.
+
+## Standard Template Library (STL)
+
+The STL includes containers (vector, list, map), algorithms (sort, find), and iterators for efficient programming.
+
+## Concurrency
+
+C++11 introduced threads and synchronization primitives like mutexes and condition variables.
+
+## Best Practices
+
+Use RAII, avoid raw pointers, and prefer STL containers. Follow the Rule of Three/Five for resource management.
+
+## Testing
+
+Frameworks like Google Test support unit testing in C++.
+
+## Performance Optimization
+
+Profile code, optimize algorithms, and use appropriate data structures. Compiler optimizations and inline functions improve performance.
+
+## Deployment
+
+C++ code is compiled to executables or libraries. Cross-platform development requires consideration of compilers and platforms.
+
+## Resources and References
+
+- [C++ Reference](https://en.cppreference.com/)
+- [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines)
+- [Effective Modern C++](https://www.amazon.com/Effective-Modern-Specific-Ways-Improve/dp/1491903996)
+
+## Troubleshooting
+
+Common issues include memory leaks, undefined behavior, and compilation errors. Use debuggers like GDB and sanitizers.
+
+## Development Setup
+
+Install a compiler (GCC, Clang, MSVC), set up an IDE (Visual Studio, CLion), and use build systems like CMake. Version control and continuous integration are essential.

@@ -1,0 +1,97 @@
+# Go Documentation
+
+This guide introduces Go programming theory, focusing on concepts and best practices for developers using the Codeunia Learn platform.
+
+## Overview
+
+Go (Golang) is a statically typed, compiled language designed for simplicity, efficiency, and concurrency. Developed by Google, it emphasizes readability, fast compilation, and built-in support for concurrent programming, making it ideal for cloud services, networking, and system tools.
+
+## Go Fundamentals
+
+### Variables and Data Types
+
+Variables are declared with `var` or short declaration `:=`. Go is statically typed. Basic types include:
+
+- **bool**: Boolean values.
+- **string**: Immutable strings.
+- **int/uint**: Signed and unsigned integers (int8, int16, etc.).
+- **float32/float64**: Floating-point numbers.
+- **complex64/complex128**: Complex numbers.
+
+Composite types include arrays, slices, maps, structs, and channels.
+
+### Strings
+
+Strings are UTF-8 encoded. The `strings` package provides manipulation functions.
+
+### Arrays and Slices
+
+Arrays have fixed size; slices are dynamic views into arrays. Slices support appending and slicing operations.
+
+### Maps
+
+Maps are key-value stores, similar to dictionaries. They are reference types and support built-in operations.
+
+## Control Flow
+
+### Conditional Statements
+
+`if` statements control branching. No ternary operator; use `if` for concise conditionals.
+
+### Loops
+
+Go has only the `for` loop, which handles all iteration types (counter, range, while-like).
+
+## Functions
+
+Functions are first-class citizens. They can return multiple values and support variadic arguments. Anonymous functions and closures are supported.
+
+## Structs and Methods
+
+Structs define custom types. Methods are functions attached to types, enabling object-oriented programming.
+
+## Interfaces
+
+Interfaces define method sets. Go uses implicit implementation, promoting composition over inheritance.
+
+## Error Handling
+
+Errors are values returned from functions. The `error` interface and `errors` package handle error management. Defer statements ensure cleanup.
+
+## Goroutines and Channels
+
+Concurrency uses goroutines (lightweight threads) and channels for communication. This model simplifies concurrent programming.
+
+## Packages and Modules
+
+Code is organized into packages. Go modules manage dependencies and versioning.
+
+## Best Practices
+
+Follow Go idioms: use short variable names, handle errors explicitly, and prefer composition. Use `gofmt` for consistent formatting.
+
+## Testing
+
+The `testing` package supports unit tests. Benchmarks measure performance.
+
+## Performance Optimization
+
+Go's garbage collector and compilation optimizations provide good performance. Profile with `pprof` for bottlenecks.
+
+## Deployment
+
+Go compiles to single binaries, simplifying deployment. Cross-compilation supports multiple platforms.
+
+## Resources and References
+
+- [Go Official Documentation](https://golang.org/doc/)
+- [Effective Go](https://golang.org/doc/effective_go.html)
+- [Go Tour](https://tour.golang.org/)
+
+## Troubleshooting
+
+Common issues include nil pointer dereferences, race conditions, and import errors. Use `go vet` and `go race` for detection.
+
+## Development Setup
+
+Install Go, set up GOPATH or use modules, and use an IDE with Go support. Version control and CI/CD pipelines are recommended.
